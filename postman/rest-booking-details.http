@@ -1,0 +1,37 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = {{accessToken}}
+@detailId = 1
+
+### Create new booking detail
+POST http://{{host}}/booking-details
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "service_id": 1,
+    "booking_id": 1,
+    "price": 100000,
+    "duration": 30
+}
+
+### Update booking detail
+PATCH http://{{host}}/booking-details/{{detailId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "price": 120000,
+    "duration": 40
+}
+
+### Delete booking detail
+DELETE http://{{host}}/booking-details/{{detailId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all booking details
+GET http://{{host}}/booking-details
+
+### Get one booking detail
+GET http://{{host}}/booking-details/{{detailId}}

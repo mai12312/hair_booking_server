@@ -1,0 +1,34 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = {{accessToken}}
+@reasonId = 1
+
+### Create new booking reason
+POST http://{{host}}/booking-reasons
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "booking_id": 1,
+    "reason": "Khách bận đột xuất"
+}
+
+### Update booking reason
+PATCH http://{{host}}/booking-reasons/{{reasonId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "reason": "Khách đổi lịch"
+}
+
+### Delete booking reason
+DELETE http://{{host}}/booking-reasons/{{reasonId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all booking reasons
+GET http://{{host}}/booking-reasons
+
+### Get one booking reason
+GET http://{{host}}/booking-reasons/{{reasonId}}

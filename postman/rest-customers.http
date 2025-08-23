@@ -1,0 +1,36 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = {{accessToken}}
+@customerId = 1
+
+### Create new customer
+POST http://{{host}}/customers
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "phone": "0123456789",
+    "name": "Nguyen Van A"
+}
+
+### Update customer
+PATCH http://{{host}}/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "email": "user2@example.com",
+    "phone": "0987654321",
+    "name": "Nguyen Van B"
+}
+
+### Delete customer
+DELETE http://{{host}}/customers/{{customerId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all customers
+GET http://{{host}}/customers
+
+### Get one customer
+GET http://{{host}}/customers/{{customerId}}

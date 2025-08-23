@@ -1,0 +1,41 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTE4NzMsImV4cCI6MTc1NTk5NTQ3M30.PsxZNqGSzkis2tMgF8X3lQzb3caQIWonaPm6sDe-nkY
+@serviceId = 1
+
+### Create new service
+POST http://{{host}}/services
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "admin_id": "1",
+    "category_id": "1",
+    "name": "Cắt tóc nam",
+    "image": "https://example.com/image.jpg",
+    "duration": "30",
+    "price": "100000",
+    "description": "Dịch vụ cắt tóc nam chuyên nghiệp"
+}
+
+### Update service
+PATCH http://{{host}}/services/{{serviceId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "name": "Cắt tóc nam cao cấp",
+    "status": "approved",
+    "price": "150000"
+}
+
+### Delete service
+DELETE http://{{host}}/services/{{serviceId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all services
+GET http://{{host}}/services
+
+### Get one service
+GET http://{{host}}/services/{{serviceId}}

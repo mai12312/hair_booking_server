@@ -1,0 +1,41 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5NTk0OTYsImV4cCI6MTc1NTk2MzA5Nn0.H4rQZcndm6mxAGoKVDZYaqNS9Kvuu2-LPT4KqwPJi64
+
+# @createdAt = {{$datetime iso8601}}
+# @modifiedBy = {{$processEnv USERNAME}}
+@categoryId = 4
+
+### Create new category
+POST http://{{host}}/service-categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "adminId": "1",
+    "name": "Cắt- Gội - Xả thư giãn",
+    "displayOrder": "1",
+    "status": "0"
+}
+
+### Update category
+PATCH http://{{host}}/service-categories/{{categoryId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+{
+    "admin_id": "1",
+    "name": "Cắt- Gội - Xả thoải mái",
+    "display_order": "1",
+    "status": "0"
+}
+
+### Delete category
+DELETE http://{{host}}/service-categories/{{categoryId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all categories
+GET http://{{host}}/service-categories
+
+### Get one category
+GET http://{{host}}/service-categories/{{categoryId}}

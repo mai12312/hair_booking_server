@@ -1,0 +1,41 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+# @createdAt = {{$datetime iso8601}}
+# @modifiedBy = {{$processEnv USERNAME}}
+
+
+###
+POST http://{{host}}/auth/signup
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "122345678"
+}
+
+###
+POST http://{{host}}/auth/signin
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "122345678"
+}
+
+###
+POST http://{{host}}/auth/refresh-token
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "122345678"
+}
+###
+POST http://{{host}}/auth/logout
+Content-Type: application/json
+
+{
+    "email": "user@example.com",
+    "password": "122345678"
+}

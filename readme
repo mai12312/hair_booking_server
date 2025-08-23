@@ -1,0 +1,10 @@
+- [How to Dockerize NestJS with MySQL](https://www.youtube.com/watch?v=a0B6MdC75z0)
+
+```bash
+docker build -t server-nodejs .
+
+docker run --name=test_connect_mysql -p 3000:3000 server-nodejs
+
+$ docker-compose up --build
+```
+

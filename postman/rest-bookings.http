@@ -1,0 +1,38 @@
+@hostname = localhost
+@port = 5000
+@host = {{hostname}}:{{port}}
+@accessToken = {{accessToken}}
+@bookingId = 1
+
+### Create new booking
+POST http://{{host}}/bookings
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "customer_email": "customer@example.com",
+    "status": "pending",
+    "start_time": "2024-06-01T10:00:00",
+    "end_time": "2024-06-01T11:00:00",
+    "total_price": "200000",
+    "total_duration": "60"
+}
+
+### Update booking
+PATCH http://{{host}}/bookings/{{bookingId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "status": "approved"
+}
+
+### Delete booking
+DELETE http://{{host}}/bookings/{{bookingId}}
+Authorization: Bearer {{accessToken}}
+
+### Get all bookings
+GET http://{{host}}/bookings
+
+### Get one booking
+GET http://{{host}}/bookings/{{bookingId}}
