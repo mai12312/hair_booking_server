@@ -6,7 +6,7 @@ export const getAllServices = async ({
     sortBy = 'created_at',
     order = 'asc'
 }) => {
-    const sql = "select * from services order by ? ? limit ? offset ?";
+    const sql = "select * from services order BY ? ? LIMIT ? OFFSET ?";
     const result = await queryArgument(sql, sortBy, order, limit, offset);
     return result;
 }
@@ -46,12 +46,11 @@ export const addService = async ({
 
 export const updateService = async (serviceId, data) => {
     const sql = `update services set 
-        name = ?, admin_id = ?, category_id = ?, status = ?, image = ?, duration = ?, price = ?, description = ?
+        name = ?, category_id = ?, status = ?, image = ?, duration = ?, price = ?, description = ?
         where id = ?`;
     const result = await queryArgument(
         sql,
         data.name,
-        data.admin_id,
         data.category_id,
         data.status,
         data.image,

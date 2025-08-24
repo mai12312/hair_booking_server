@@ -1,8 +1,7 @@
 @hostname = localhost
 @port = 5000
-@host = {{hostname}}:{{port}}
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTczOTAsImV4cCI6MTc1NjAwMDk5MH0.tacUzsTboiCn0IzSx2JVvw0udJVMQg53eHp3OaCe0yI
-
+@host = {{hostname}}:{{port}}/api
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTYwMzM5NTEsImV4cCI6MTc1NjAzNzU1MX0.WdpCFGHmGitKFjr8o83NqP4fUuV6PogNc275CUDP20U
 # @createdAt = {{$datetime iso8601}}
 # @modifiedBy = {{$processEnv USERNAME}}
 @categoryId = 1
@@ -15,6 +14,18 @@ Content-Type: application/json
 {
     "adminId": "1",
     "name": "Cắt- Gội - Xả thư giãn",
+    "displayOrder": "1",
+    "status": "0"
+}
+
+### Create new category
+POST http://{{host}}/service-categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "adminId": "1",
+    "name": "Gội dưỡng sinh thư giãn - Relax",
     "displayOrder": "1",
     "status": "0"
 }
@@ -36,7 +47,7 @@ DELETE http://{{host}}/service-categories/{{categoryId}}
 Authorization: Bearer {{accessToken}}
 
 ### Get all categories
-GET http://{{host}}/service-categories
+GET http://{{host}}/service-categories?limit=10&offset=0&order=asc&sortBy=created_at
 
 ### Get one category
 GET http://{{host}}/service-categories/{{categoryId}}

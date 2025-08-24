@@ -5,16 +5,16 @@ import { bookingsRouter } from "./bookings.route";
 import { categoriesRouter } from "./categories.route";
 import { customersRouter } from "./customers.route";
 import { servicesRouter } from "./services.route";
-// import { imageRouter } from "./images.route";
+import { imageRouter } from "./images.route";
 // import { userRouter } from "./users.route";
 
 export function routes(app) {
-    app.use('/services', servicesRouter);
-    app.use('/service-categories', categoriesRouter);
-    app.use('/bookings', bookingsRouter);
-    app.use('/booking-details', bookingDetailsRouter);
-    app.use('/booking-reasons', bookingReasonsRouter);
-    app.use('/customers', customersRouter);
-    // app.use('/images', imageRouter);
-    app.use('/auth', authRouter);
+    app.use('/api/services', servicesRouter);
+    app.use('/api/service-categories', categoriesRouter);
+    app.use('/api/bookings', bookingsRouter);
+    app.use('/api/booking-details', bookingDetailsRouter);
+    app.use('/api/booking-reasons', bookingReasonsRouter);
+    app.use('/api/customers', customersRouter);
+    app.use('/api/images', imageRouter);
+    app.use('/api/auth', authRouter);
 }

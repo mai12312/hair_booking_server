@@ -1,4 +1,5 @@
 "use strict"
+import { mapServicesToCamelCase, mapServiceToCamelCase } from "../helpers/mapService.healper";
 import { servicesService } from "../services/services.service";
 
 class ServicesController {
@@ -16,16 +17,16 @@ class ServicesController {
                 sortBy
             } = req.query;
             const services = await servicesService.getAllServices({
-                limit,
-                offset,
-                order,
+                limit: Number(isNaN(limit) ? "10" : limit),
+                offset: Number(isNaN(offset) ? "0" : offset),
+                order: order === "desc" ? "desc" : "asc",
                 sortBy
             });
             return res.status(200).json({
                 status: 200,
                 message: "Lấy dịch vụ thành công!",
                 datas: {
-                    services
+                    services: mapServicesToCamelCase(services)
                 }
             });
         } catch (error) {
@@ -46,7 +47,7 @@ class ServicesController {
                 status: 200,
                 message: "Lấy dịch vụ thành công!",
                 datas: {
-                    service
+                    service: mapServiceToCamelCase(service)
                 }
             });
         } catch (error) {

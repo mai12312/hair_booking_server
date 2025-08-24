@@ -7,6 +7,6 @@ bookingsRouter.get('/:bookingId', bookingsController.getBookingById);
 bookingsRouter.delete('/:bookingId', verifyAccessToken, bookingsController.deleteBooking);
 bookingsRouter.patch('/:bookingId', verifyAccessToken, bookingsController.updateBooking);
 bookingsRouter.get('/', bookingsController.getAllBookings);
-bookingsRouter.post('/', verifyAccessToken, bookingsController.addBooking);
+bookingsRouter.post('/', bookingsController.addBooking);
 
 export { bookingsRouter }

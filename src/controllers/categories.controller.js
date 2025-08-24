@@ -1,4 +1,5 @@
 "use strict"
+import { mapCategoriesToCamelCase, mapCategoryToCamelCase } from "../helpers/mapCategory.helper";
 import { categoryService } from "../services/categories.service";
 
 class CategoriesController {
@@ -16,9 +17,9 @@ class CategoriesController {
                 sortBy
             } = req.query;
             const categories = await categoryService.getAllCategories({
-                limit,
-                offset,
-                order,
+                limit: Number(isNaN(limit) ? "10" : limit),
+                offset: Number(isNaN(offset) ? "0" : offset),
+                order: order === "desc" ? "desc" : "asc",
                 sortBy
             });
 
@@ -26,7 +27,7 @@ class CategoriesController {
                 status: 200,
                 message: "Lấy danh mục thành công!",
                 datas: {
-                    categories
+                    categories: mapCategoriesToCamelCase(categories)
                 }
             });
         } catch (error) {
@@ -46,7 +47,7 @@ class CategoriesController {
                 status: 200,
                 message: "Lấy danh mục thành công!",
                 datas: {
-                    category
+                    category: mapCategoryToCamelCase(category)
                 }
             });
         } catch (error) {

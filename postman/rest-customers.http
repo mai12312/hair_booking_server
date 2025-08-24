@@ -1,6 +1,6 @@
 @hostname = localhost
 @port = 5000
-@host = {{hostname}}:{{port}}
+@host = {{hostname}}:{{port}}/api
 @accessToken = {{accessToken}}
 @customerId = 1
 

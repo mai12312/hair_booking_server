@@ -1,8 +1,8 @@
 @hostname = localhost
 @port = 5000
-@host = {{hostname}}:{{port}}
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTY5MzQsImV4cCI6MTc1NjAwMDUzNH0.tmZE1TLDziW4McFUUE4AcaYdCYGkja6HkADs6W_Wh6Q
-
+@host = {{hostname}}:{{port}}/api
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTYwMzM5NTEsImV4cCI6MTc1NjAzNzU1MX0.WdpCFGHmGitKFjr8o83NqP4fUuV6PogNc275CUDP20U
+@serviceId = 4
 ### Create new service
 POST http://{{host}}/services
 Authorization: Bearer {{accessToken}}
@@ -10,8 +10,8 @@ Content-Type: application/json
 
 {
     "admin_id": "1",
-    "category_id": "1",
-    "name": "Cắt tóc nam",
+    "category_id": "2",
+    "name": "Gội đầu thư giãn",
     "image": "https://example.com/image.jpg",
     "duration": "30",
     "price": "100000",
@@ -24,9 +24,14 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "name": "Cắt tóc nam cao cấp",
+    "admin_id": "1",
+    "category_id": "2",
+    "name": "Gội đầu thư giãn",
+    "image": "https://example.com/image.jpg",
+    "duration": "30",
+    "price": "100000",
     "status": "approved",
-    "price": "150000"
+    "description": "Dịch vụ cắt tóc nam chuyên nghiệp"
 }
 
 ### Delete service
@@ -34,7 +39,7 @@ DELETE http://{{host}}/services/{{serviceId}}
 Authorization: Bearer {{accessToken}}
 
 ### Get all services
-GET http://{{host}}/services
+GET http://{{host}}/services?limit=10&offset=0&order=asc&sortBy=created_at
 
 ### Get one service
 GET http://{{host}}/services/{{serviceId}}

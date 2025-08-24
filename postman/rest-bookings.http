@@ -1,12 +1,11 @@
 @hostname = localhost
 @port = 5000
-@host = {{hostname}}:{{port}}
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTY5MzQsImV4cCI6MTc1NjAwMDUzNH0.tmZE1TLDziW4McFUUE4AcaYdCYGkja6HkADs6W_Wh6Q
+@host = {{hostname}}:{{port}}/api
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTYwMzM5NTEsImV4cCI6MTc1NjAzNzU1MX0.WdpCFGHmGitKFjr8o83NqP4fUuV6PogNc275CUDP20U
 @bookingId = 3
 
 ### Create new booking by customer
 POST http://{{host}}/bookings
-Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
@@ -51,7 +50,7 @@ DELETE http://{{host}}/bookings/{{bookingId}}
 Authorization: Bearer {{accessToken}}
 
 ### Get all bookings
-GET http://{{host}}/bookings
+GET http://{{host}}/bookings?limit=100
 
 ### Get one booking
 GET http://{{host}}/bookings/{{bookingId}}

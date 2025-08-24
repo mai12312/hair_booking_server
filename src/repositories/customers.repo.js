@@ -14,6 +14,11 @@ export const getCustomerById = async (customerId) => {
     const result = await queryArgument(sql, customerId);
     return result[0];
 }
+export const getCustomerByEmail = async (email) => {
+    const sql = "select * from customers where email = ?";
+    const result = await queryArgument(sql, email);
+    return result[0];
+}
 export const addCustomer = async (data) => {
     const sql = "insert into customers (email, phone, name) values (?, ?, ?)";
     const result = await queryArgument(sql, data.email, data.phone, data.name);

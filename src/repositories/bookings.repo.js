@@ -17,7 +17,7 @@ export const getBookingById = async (bookingId) => {
 }
 export const addBooking = async ({
     customerEmail,
-    status,
+    status = "pending",
     startTime,
     endTime,
     totalPrice = 0,

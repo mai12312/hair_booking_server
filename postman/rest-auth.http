@@ -1,6 +1,6 @@
 @hostname = localhost
 @port = 5000
-@host = {{hostname}}:{{port}}
+@host = {{hostname}}:{{port}}/api
 # @createdAt = {{$datetime iso8601}}
 # @modifiedBy = {{$processEnv USERNAME}}
 
