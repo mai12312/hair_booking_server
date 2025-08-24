@@ -4,7 +4,6 @@
 # @createdAt = {{$datetime iso8601}}
 # @modifiedBy = {{$processEnv USERNAME}}
 
-
 ###
 POST http://{{host}}/auth/signup
 Content-Type: application/json

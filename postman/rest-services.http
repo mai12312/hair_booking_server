@@ -1,8 +1,7 @@
 @hostname = localhost
 @port = 5000
 @host = {{hostname}}:{{port}}
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTE4NzMsImV4cCI6MTc1NTk5NTQ3M30.PsxZNqGSzkis2tMgF8X3lQzb3caQIWonaPm6sDe-nkY
-@serviceId = 1
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTY5MzQsImV4cCI6MTc1NjAwMDUzNH0.tmZE1TLDziW4McFUUE4AcaYdCYGkja6HkADs6W_Wh6Q
 
 ### Create new service
 POST http://{{host}}/services

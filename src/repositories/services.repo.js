@@ -17,20 +17,29 @@ export const getServiceById = async (serviceId) => {
     return result[0];
 }
 
-export const addService = async (data) => {
+export const addService = async ({
+    name,
+    admin_id,
+    category_id,
+    status = "pending",
+    image,
+    duration,
+    price,
+    description
+}) => {
     const sql = `insert into services 
         (name, admin_id, category_id, status, image, duration, price, description) 
         values (?, ?, ?, ?, ?, ?, ?, ?)`;
     const result = await queryArgument(
         sql,
-        data.name,
-        data.admin_id,
-        data.category_id,
-        data.status,
-        data.image,
-        data.duration,
-        data.price,
-        data.description
+        name,
+        admin_id,
+        category_id,
+        status,
+        image,
+        duration,
+        price,
+        description
     );
     return result.insertId;
 }

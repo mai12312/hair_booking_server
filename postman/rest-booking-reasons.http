@@ -1,8 +1,8 @@
 @hostname = localhost
 @port = 5000
 @host = {{hostname}}:{{port}}
-@accessToken = {{accessToken}}
-@reasonId = 1
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTY5MzQsImV4cCI6MTc1NjAwMDUzNH0.tmZE1TLDziW4McFUUE4AcaYdCYGkja6HkADs6W_Wh6Q
+@reasonId = 3
 
 ### Create new booking reason
 POST http://{{host}}/booking-reasons
@@ -10,7 +10,7 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "booking_id": 1,
+    "booking_id": "3",
     "reason": "Khách bận đột xuất"
 }
 
@@ -20,6 +20,7 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
+    "booking_id": "3",
     "reason": "Khách đổi lịch"
 }
 

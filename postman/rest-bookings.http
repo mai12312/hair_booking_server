@@ -1,21 +1,35 @@
 @hostname = localhost
 @port = 5000
 @host = {{hostname}}:{{port}}
-@accessToken = {{accessToken}}
-@bookingId = 1
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTU5OTY5MzQsImV4cCI6MTc1NjAwMDUzNH0.tmZE1TLDziW4McFUUE4AcaYdCYGkja6HkADs6W_Wh6Q
+@bookingId = 3
 
-### Create new booking
+### Create new booking by customer
 POST http://{{host}}/bookings
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "customer_email": "customer@example.com",
+    "customerEmail": "customer@example.com",
     "status": "pending",
-    "start_time": "2024-06-01T10:00:00",
-    "end_time": "2024-06-01T11:00:00",
-    "total_price": "200000",
-    "total_duration": "60"
+    "startTime": "2024-06-01T10:00:00",
+    "endTime": "2024-06-01T11:00:00",
+    "totalPrice": "200000",
+    "totalDuration": "60"
+}
+### Create new booking by admin
+POST http://{{host}}/bookings
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "customerEmail": "customer@example.com",
+    "status": "pending",
+    "startTime": "2024-06-01T10:00:00",
+    "endTime": "2024-06-01T11:00:00",
+    "totalPrice": "200000",
+    "totalDuration": "60",
+    "createdByAdminId": "1"
 }
 
 ### Update booking
@@ -24,7 +38,12 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "status": "approved"
+    "customerEmail": "customer@example.com",
+    "status": "approved",
+    "startTime": "2024-06-01T10:00:00",
+    "endTime": "2024-06-01T11:00:00",
+    "totalPrice": "200000",
+    "totalDuration": "60"
 }
 
 ### Delete booking

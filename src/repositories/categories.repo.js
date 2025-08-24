@@ -15,14 +15,26 @@ export const getCategoryById = async (categoryId) => {
     const result = await queryArgument(sql, categoryId);
     return result[0];
 }
-export const addCategory = async (data) => {
-    const sql = "insert into categories (name, admin_id) values (?, ?)";
-    const result = await queryArgument(sql, data.name, data.admin_id);
+export const addCategory = async ({
+    categoryId,
+    name,
+    adminId,
+    displayOrder = 9999,
+    status = '0'
+}) => {
+    const sql = "insert into categories (name, admin_id, display_order, status) values (?, ?, ?, ?)";
+    const result = await queryArgument(sql, name, adminId, displayOrder, status);
     return result.insertId;
 }
-export const updateCategory = async (categoryId, data) => {
-    const sql = "update categories set name = ?, admin_id = ? where id = ?";
-    const result = await queryArgument(sql, data.name, data.admin_id, categoryId);
+export const updateCategory = async ({
+    categoryId,
+    name,
+    adminId,
+    displayOrder,
+    status
+}) => {
+    const sql = "update categories set name = ?, admin_id = ?, display_order = ?, status = ? where id = ?";
+    const result = await queryArgument(sql, name, adminId, displayOrder, status, categoryId);
     return result.affectedRows > 0;
 }
 export const deleteCategory = async (categoryId) => {

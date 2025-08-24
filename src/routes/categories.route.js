@@ -8,7 +8,7 @@ categoriesRouter.get('/:categoryId', categoriesController.getCategoryById); // g
 categoriesRouter.delete('/:categoryId', verifyAccessToken, categoriesController.deleteCategory); // delete one
 categoriesRouter.patch('/:categoryId', verifyAccessToken, categoriesController.updateCategory); //update
 categoriesRouter.get('/', categoriesController.getAllCategories); // get all
-categoriesRouter.post('/', categoriesController.addCategory); // create new
+categoriesRouter.post('/', verifyAccessToken, categoriesController.addCategory); // create new
 
 export {
     categoriesRouter

@@ -9,7 +9,7 @@ POST http://{{host}}/customers
 Content-Type: application/json
 
 {
-    "email": "user@example.com",
+    "email": "customer@example.com",
     "phone": "0123456789",
     "name": "Nguyen Van A"
 }
