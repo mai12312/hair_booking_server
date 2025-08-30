@@ -12,7 +12,10 @@ export function mapServiceToCamelCase(service) {
         price: service.price,
         status: service.status,
         image: service.image,
-        duration: service.duration
+        duration: service.duration,
+        createdAt: service.created_at ?? service.createdAt,
+        updatedAt: service.updated_at ?? service.updatedAt,
+        description: service.description ?? service.description,
         // ...add more fields as needed
     };
 }

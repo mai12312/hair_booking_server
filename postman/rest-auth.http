@@ -3,7 +3,7 @@
 @host = {{hostname}}:{{port}}/api
 # @createdAt = {{$datetime iso8601}}
 # @modifiedBy = {{$processEnv USERNAME}}
-
+@accessToken = ""
 ###
 POST http://{{host}}/auth/signup
 Content-Type: application/json
@@ -31,10 +31,6 @@ Content-Type: application/json
     "password": "122345678"
 }
 ###
-POST http://{{host}}/auth/logout
+DELETE  http://{{host}}/auth/logout
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
-
-{
-    "email": "user@example.com",
-    "password": "122345678"
-}

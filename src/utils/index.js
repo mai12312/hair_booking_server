@@ -12,6 +12,9 @@ export const formartIdResponseDataMongoDb = (data) => {
 }
 
 export const getUrl = () => {
-    const urlDev = process.env.DEV_URL + ":" + process.env.PORT;
-    return process.env.NODE_ENV !== 'production' ? urlDev : ""
+    const url = process.env.APP_HOST;
+    if(!url) {
+        throw new Error("APP_HOST chưa được định nghĩa");
+    }
+    return url;
 }

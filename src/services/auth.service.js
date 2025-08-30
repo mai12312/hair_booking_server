@@ -7,6 +7,18 @@ import { comparePassword, hashPassword } from "../helpers/password.helper";
 
 class AuthService {
     /**
+     * @desc get user by email
+     * @param {string} email
+     * @returns
+     */
+    async getAdminByEmail(email) {
+        const user = await isExistsAdmin(email);
+        if (!user.length > 0) {
+            throw createError.Conflict('Tài khoản không tồn tại!');
+        }
+        return user[0];
+    }
+    /**
      * @desc sign in for admin
      * @param {string} email
      * @param {string} password
@@ -27,7 +39,6 @@ class AuthService {
             throw createError.Unauthorized('Tài khoản hoặc mật khẩu không chính xác!');
         }
         const { accessToken, refreshToken } = await responseToken(email);
-        // res.setHeader('Authorization', 'Bearer' + ' ' + accessToken);
 
         // update refresh token
         await updateTokenAdmin(refreshToken, email);
@@ -99,12 +110,10 @@ class AuthService {
      * @param {string} password
      * @returns
      */
-    async logOut({email, password}) {
+    async logOut({email}) {
         const user = await isExistsAdmin(email);
-        const match = await comparePassword(password, user[0].password);
-        // create access token and refresh token
-        if(!match) {
-            throw createError.Unauthorized('Bạn không có quyền!');
+        if(!user.length > 0) {
+            throw createError.Conflict('Tài khoản không tồn tại!');
         }
         const refresh = await getRefreshToken(email);
         if(!refresh) {

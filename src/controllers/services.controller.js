@@ -1,5 +1,7 @@
 "use strict"
+import { verifyAccessToken } from "../helpers/authToken.helper";
 import { mapServicesToCamelCase, mapServiceToCamelCase } from "../helpers/mapService.healper";
+import { authService } from "../services/auth.service";
 import { servicesService } from "../services/services.service";
 
 class ServicesController {
@@ -82,7 +84,14 @@ class ServicesController {
     async addService(req, res, next) {
         try {
             const serviceData = req.body;
-            const id = await servicesService.addService(serviceData);
+            const authHeader = req.headers['authorization'];
+            const payload = verifyAccessToken(authHeader);
+            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            const adminId = admin.id;
+            const id = await servicesService.addService({
+                ...serviceData,
+                adminId
+            });
             return res.json({
                 status: 201,
                 message: "Thêm dịch vụ thành công!",
@@ -110,6 +119,38 @@ class ServicesController {
                 message: "Cập nhật dịch vụ thành công!",
                 data: {
                     id: serviceId
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    /**
+     * Route: GET /services/:serviceId/bookings
+     * method: GET
+     * Description: Get bookings by service ID
+     */
+    async getBookingDetailsByServiceId(req, res, next) {
+        try {
+            const serviceId = req.params.serviceId;
+            const {
+                limit,
+                offset,
+                order,
+                sortBy
+            } = req.query;
+            const bookings = await servicesService.getBookingDetailsByServiceId({
+                serviceId,
+                limit: Number(isNaN(limit) ? "10" : limit),
+                offset: Number(isNaN(offset) ? "0" : offset),
+                order: order === "desc" ? "desc" : "asc",
+                sortBy
+            });
+            return res.status(200).json({
+                status: 200,
+                message: "Lấy danh sách đặt chỗ thành công!",
+                datas: {
+                    bookings
                 }
             });
         } catch (error) {

@@ -7,7 +7,11 @@ export function mapCategoryToCamelCase(category) {
         id: category.id,
         name: category.name,
         adminId: category.admin_id ?? category.adminId,
-        categoryId: category.category_id ?? category.categoryId
+        categoryId: category.category_id ?? category.categoryId,
+        createdAt: category.created_at ?? category.createdAt,
+        updatedAt: category.updated_at ?? category.updatedAt,
+        status: category.status ?? category.status,
+        displayOrder: category.display_order ?? category.displayOrder
     };
 }
 

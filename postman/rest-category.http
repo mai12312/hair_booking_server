@@ -51,3 +51,6 @@ GET http://{{host}}/service-categories?limit=10&offset=0&order=asc&sortBy=create
 
 ### Get one category
 GET http://{{host}}/service-categories/{{categoryId}}
+
+### Get services by category
+GET http://{{host}}/service-categories/{{categoryId}}/services

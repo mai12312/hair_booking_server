@@ -1,5 +1,7 @@
 "use strict"
+import { verifyAccessToken } from "../helpers/authToken.helper";
 import { mapCategoriesToCamelCase, mapCategoryToCamelCase } from "../helpers/mapCategory.helper";
+import { authService } from "../services/auth.service";
 import { categoryService } from "../services/categories.service";
 
 class CategoriesController {
@@ -81,10 +83,15 @@ class CategoriesController {
      */
     async addCategory(req, res, next) {
         try{
-            const {name, adminId} = req.body;
+            const {name, displayOrder} = req.body;
+            const authHeader = req.headers['authorization'];
+            const payload = verifyAccessToken(authHeader);
+            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            const adminId = admin.id;
             const id = await categoryService.addCategory({
                 name,
-                adminId
+                adminId,
+                displayOrder
             });
             return res.json({
                 status: 201,
@@ -106,12 +113,46 @@ class CategoriesController {
         try{
             const categoryId = req.params.categoryId;
             const updatedData = req.body;
-            await categoryService.updateCategory(categoryId, updatedData);
+            const isUpdated = await categoryService.updateCategory(categoryId, updatedData);
+            if(!isUpdated) {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Cập nhật danh mục thất bại!",
+                    data: null
+                });
+            }
             return res.json({
                 status: 200,
                 message: "Cập nhật danh mục thành công!",
                 data: {
                     id: categoryId
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+    async getServicesByCategoryId(req, res, next) {
+        try {
+            const categoryId = req.params.categoryId;
+            const {
+                limit,
+                offset,
+                order,
+                sortBy
+            } = req.query;
+            const services = await categoryService.getServicesByCategoryId({
+                categoryId,
+                limit: Number(isNaN(limit) ? "10" : limit),
+                offset: Number(isNaN(offset) ? "0" : offset),
+                order: order === "desc" ? "desc" : "asc",
+                sortBy
+            });
+            return res.status(200).json({
+                status: 200,
+                message: "Lấy dịch vụ theo danh mục thành công!",
+                datas: {
+                    services
                 }
             });
         } catch (error) {

@@ -43,3 +43,6 @@ GET http://{{host}}/services?limit=10&offset=0&order=asc&sortBy=created_at
 
 ### Get one service
 GET http://{{host}}/services/{{serviceId}}
+
+### Get bookings by service
+GET http://{{host}}/services/{{serviceId}}/booking-details

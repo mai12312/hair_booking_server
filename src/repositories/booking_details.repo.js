@@ -29,3 +29,13 @@ export const deleteBookingDetail = async (detailId) => {
     const result = await queryArgument(sql, detailId);
     return result.affectedRows > 0;
 }
+export const getBookingDetailsByServiceId = async ({
+    serviceId,
+    limit = 10,
+    offset = 0,
+    sortBy = 'created_at',
+    order = 'asc'
+}) => {
+    const sql = "select * from booking_details where service_id = ? order by ? ? limit ? offset ?";
+    return await queryArgument(sql, serviceId, sortBy, order, limit, offset);
+}

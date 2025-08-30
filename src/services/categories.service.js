@@ -1,4 +1,5 @@
 import { addCategory, deleteCategory, getAllCategories, getCategoryById, updateCategory } from "../repositories/categories.repo";
+import { getServicesByCategoryId } from "../repositories/services.repo";
 
 class CategoryService {
     async getAllCategories({
@@ -21,23 +22,44 @@ class CategoryService {
         return category;
     }
 
-    async addCategory({name, adminId}) {
+    async addCategory({name, adminId, displayOrder}) {
         return await addCategory({
             name,
-            adminId
+            adminId,
+            displayOrder
         });
     }
     
-    async updateCategory(categoryId, data) {
+    async updateCategory(categoryId, updatedData) {
         const category = await getCategoryById(categoryId);
         if (!category) throw new Error("Danh mục không tồn tại!");
-        return await updateCategory(categoryId, data);
+        const data = {
+            ...category,
+            ...updatedData,
+        }
+        return await updateCategory({categoryId, data});
     }
 
     async deleteCategory(categoryId) {
         const category = await getCategoryById(categoryId);
         if (!category) throw new Error("Danh mục không tồn tại!");
         return await deleteCategory(categoryId);
+    }
+
+    async getServicesByCategoryId({
+        categoryId,
+        limit,
+        offset,
+        order,
+        sortBy
+    }) {
+        return await getServicesByCategoryId({
+            categoryId,
+            limit,
+            offset,
+            order,
+            sortBy
+        });
     }
 }
 

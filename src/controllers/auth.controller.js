@@ -1,7 +1,27 @@
 "use strict";
+import { verifyAccessToken } from "../helpers/authToken.helper";
+import { mapAdminInfo } from "../helpers/mapAdminInfo";
 import { authService } from "../services/auth.service";
 
 class AuthController {
+    /**
+     * Route: auth/me
+     * method: GET
+     */
+    async getMe(req, res, next) {
+        try {
+            const authHeader = req.headers['authorization'];
+            const payload = verifyAccessToken(authHeader);
+            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            res.json({
+                status: 200,
+                message: 'ok',
+                datas: mapAdminInfo(admin)
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
     /**
      * Route: auth/signin
      * method: POST
@@ -10,6 +30,7 @@ class AuthController {
         try {
             const { email, password } = req.body;
             const { accessToken } = await authService.signIn(email, password);
+            res.setHeader('Authorization', 'Bearer' + ' ' + accessToken);
             res.status(201).json({
                 status: 201,
                 message: 'ok',
@@ -64,8 +85,10 @@ class AuthController {
      */
     async logOut(req, res, next) {
         try {
-            const { email, password } = req.body;
-            await authService.logOut({email, password});
+            const authHeader = req.headers['authorization'];
+            const payload = verifyAccessToken(authHeader);
+            await authService.logOut({email: payload.email});
+            
             res.json({
                 status: 204,
                 message: 'Logout ok!',

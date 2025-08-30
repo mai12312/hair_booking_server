@@ -19,8 +19,8 @@ export const getServiceById = async (serviceId) => {
 
 export const addService = async ({
     name,
-    admin_id,
-    category_id,
+    adminId,
+    categoryId,
     status = "pending",
     image,
     duration,
@@ -33,8 +33,8 @@ export const addService = async ({
     const result = await queryArgument(
         sql,
         name,
-        admin_id,
-        category_id,
+        adminId,
+        categoryId,
         status,
         image,
         duration,
@@ -66,4 +66,22 @@ export const deleteService = async (serviceId) => {
     const sql = "delete from services where id = ?";
     const result = await queryArgument(sql, serviceId);
     return result.affectedRows > 0;
+}
+
+export const getServicesByCategoryId = async ({
+    categoryId,
+    limit,
+    offset,
+    order,
+    sortBy
+}) => {
+    const sql = "select * from services where category_id = ? order by ? ? limit ? offset ?";
+    const result = await queryArgument(sql, categoryId, sortBy, order, limit, offset);
+    return result;
+}
+
+export async function countServicesByCategoryId(categoryId) {
+    const sql = "select count(*) as total from services where category_id = ?";
+    const result = await queryArgument(sql, categoryId);
+    return result[0].total;
 }

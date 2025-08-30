@@ -1,8 +1,10 @@
 import {
     addService,
+    countServicesByCategoryId,
     deleteService,
     getAllServices,
     getServiceById,
+    getServicesByCategoryId,
     updateService
 } from "../repositories/services.repo";
 
@@ -41,6 +43,30 @@ class ServicesService {
         const service = await getServiceById(serviceId);
         if (!service) throw new Error("Dịch vụ không tồn tại!");
         return await deleteService(serviceId);
+    }
+    async getServicesByCategoryId(categoryId) {
+        return await getServicesByCategoryId(categoryId);
+    }
+    async countServicesByCategoryId(categoryId) {
+        return await countServicesByCategoryId(categoryId);
+    }
+    /**
+     * get bookings by service id
+     * @returns 
+     */
+    async getBookingDetailsByServiceId({serviceId,
+            limit,
+            offset,
+            order,
+            sortBy
+    }) {
+        return await getBookingDetailsByServiceId({
+            serviceId,
+            limit,
+            offset,
+            order,
+            sortBy
+        });
     }
 }
 
