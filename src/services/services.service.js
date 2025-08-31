@@ -33,9 +33,13 @@ class ServicesService {
         return await addService(data);
     }
 
-    async updateService(serviceId, data) {
+    async updateService(serviceId, updateData) {
         const service = await getServiceById(serviceId);
         if (!service) throw new Error("Dịch vụ không tồn tại!");
+        const data = {
+            ...service,
+            ...updateData
+        };
         return await updateService(serviceId, data);
     }
 

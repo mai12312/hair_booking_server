@@ -69,7 +69,7 @@ class CategoriesController {
             return res.json({
                 status: 201,
                 message: "Xóa danh mục thành công!",
-                data: null
+                datas: null
             });
         } catch (error) {
             next(error);
@@ -96,7 +96,7 @@ class CategoriesController {
             return res.json({
                 status: 201,
                 message: "Thêm danh mục thành công!",
-                data: {
+                datas: {
                     id
                 }
             });
@@ -124,7 +124,7 @@ class CategoriesController {
             return res.json({
                 status: 200,
                 message: "Cập nhật danh mục thành công!",
-                data: {
+                datas: {
                     id: categoryId
                 }
             });

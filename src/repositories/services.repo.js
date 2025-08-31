@@ -70,10 +70,10 @@ export const deleteService = async (serviceId) => {
 
 export const getServicesByCategoryId = async ({
     categoryId,
-    limit,
-    offset,
-    order,
-    sortBy
+    limit = 10,
+    offset = 0,
+    sortBy = 'created_at',
+    order = 'asc'
 }) => {
     const sql = "select * from services where category_id = ? order by ? ? limit ? offset ?";
     const result = await queryArgument(sql, categoryId, sortBy, order, limit, offset);

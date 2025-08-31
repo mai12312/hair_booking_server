@@ -9,6 +9,7 @@ categoriesRouter.delete('/:categoryId', verifyAccessTokenMiddleware, categoriesC
 categoriesRouter.patch('/:categoryId', verifyAccessTokenMiddleware, categoriesController.updateCategory); //update
 categoriesRouter.get('/', categoriesController.getAllCategories); // get all
 categoriesRouter.post('/', verifyAccessTokenMiddleware, categoriesController.addCategory); // create new
+categoriesRouter.get('/:categoryId/services', categoriesController.getServicesByCategoryId);
 
 export {
     categoriesRouter

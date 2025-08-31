@@ -64,12 +64,13 @@ class ServicesController {
      */
     async deleteService(req, res, next) {
         try {
+            console.log("Deleting service with ID: ", req.params.serviceId);
             const serviceId = req.params.serviceId;
             await servicesService.deleteService(serviceId);
             return res.json({
                 status: 201,
                 message: "Xóa dịch vụ thành công!",
-                data: null
+                datas: null
             });
         } catch (error) {
             next(error);
@@ -95,7 +96,7 @@ class ServicesController {
             return res.json({
                 status: 201,
                 message: "Thêm dịch vụ thành công!",
-                data: {
+                datas: {
                     id
                 }
             });
@@ -113,11 +114,18 @@ class ServicesController {
         try {
             const serviceId = req.params.serviceId;
             const updatedData = req.body;
-            await servicesService.updateService(serviceId, updatedData);
+            const isUpdated = await servicesService.updateService(serviceId, updatedData);
+             if(!isUpdated) {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Cập nhật dịch vụ thất bại!",
+                    data: null
+                });
+            }
             return res.json({
                 status: 200,
                 message: "Cập nhật dịch vụ thành công!",
-                data: {
+                datas: {
                     id: serviceId
                 }
             });
