@@ -6,7 +6,8 @@ import { verifyAccessTokenMiddleware } from '../middlewares/verifyToken.middlewa
 bookingsRouter.get('/:bookingId', bookingsController.getBookingById);
 bookingsRouter.delete('/:bookingId', verifyAccessTokenMiddleware, bookingsController.deleteBooking);
 bookingsRouter.patch('/:bookingId', verifyAccessTokenMiddleware, bookingsController.updateBooking);
-bookingsRouter.get('/', bookingsController.getAllBookings);
+bookingsRouter.get('/', verifyAccessTokenMiddleware, bookingsController.getAllBookings);
+bookingsRouter.get('/user', bookingsController.getBookingCustomer);
 bookingsRouter.post('/', bookingsController.addBooking);
 
 export { bookingsRouter }

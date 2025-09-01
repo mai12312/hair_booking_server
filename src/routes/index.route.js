@@ -11,6 +11,7 @@ export function routes(app) {
     app.use('/api/services', servicesRouter);
     app.use('/api/service-categories', categoriesRouter);
     app.use('/api/bookings', bookingsRouter);
+    app.use('/api/admin/bookings', bookingsRouter);
     app.use('/api/booking-details', bookingDetailsRouter);
     app.use('/api/booking-reasons', bookingReasonsRouter);
     app.use('/api/customers', customersRouter);

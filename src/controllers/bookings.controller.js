@@ -4,8 +4,9 @@ import { bookingDetailsService } from "../services/booking_details.service";
 import { bookingsService } from "../services/bookings.service";
 import { customersService } from "../services/customers.service";
 import { servicesService } from "../services/services.service";
-import { calculatorEndTime, findServiceById, getTotalDuration, getTotalPrice } from "../helpers/booking.helper";
+import { calculatorEndTime, findServiceById, getDateForBookings, getTotalDuration, getTotalPrice } from "../helpers/booking.helper";
 import { sendEmailForCustomer } from "../utils/booking.util";
+import { mapBookingsToCamelCase, mapBookingToCamelCase } from "../helpers/mapBooking.helper";
 
 class BookingsController {
     /**
@@ -14,19 +15,38 @@ class BookingsController {
      */
     async getAllBookings(req, res, next) {
         try {
-             const {
+            const { month, year, startTime, endTime } = req.query;
+            console.log({
+                month,
+                year,
+                startTime,
+                endTime
+            })
+            const bookings = await bookingsService.getAllBookings({ startTime, endTime, month, year });
+            res.status(200).json({ status: 200, message: "ok", datas: { bookings: mapBookingsToCamelCase(bookings) } });
+        } catch (error) { next(error); }
+    }
+    /**
+     * Route: GET /bookings/user
+     * method: GET
+     */
+    async getBookingCustomer(req, res, next) {
+        try {
+            const {
                 limit,
                 offset,
                 order,
-                sortBy
+                sortBy,
+                email
             } = req.query;
-            const bookings = await bookingsService.getAllBookings({
+            const bookings = await bookingsService.getBookingsByUserEmail({
                 limit: Number(isNaN(limit) ? "10" : limit),
                 offset: Number(isNaN(offset) ? "0" : offset),
                 order: order === "desc" ? "desc" : "asc",
-                sortBy
+                sortBy,
+                email: email ?? ""
             });
-            res.status(200).json({ status: 200, message: "ok", datas: { bookings } });
+            res.status(200).json({ status: 200, message: "ok", datas: { bookings: mapBookingsToCamelCase(bookings) } });
         } catch (error) { next(error); }
     }
     /**
@@ -36,7 +56,7 @@ class BookingsController {
     async getBookingById(req, res, next) {
         try {
             const booking = await bookingsService.getBookingById(req.params.bookingId);
-            res.status(200).json({ status: 200, message: "ok", datas: { booking } });
+            res.status(200).json({ status: 200, message: "ok", datas: { booking: mapBookingToCamelCase(booking) } });
         } catch (error) { next(error); }
     }
     /**
@@ -53,19 +73,9 @@ class BookingsController {
      * Route: POST /bookings
      * method: POST
      */
-//     {
-//     "customerEmail": "adsdasdas@gmail.com",
-//     "customerPhone": "123123123",
-//     "customerName": "casdcsa",
-//     "serviceIds": [
-//         5,
-//         9
-//     ],
-//     "startTime": "2025-08-24T20:20:00"
-// }
     async addBooking(req, res, next) {
         try {
-            const { customerEmail, customerPhone, customerName, serviceIds, startTime } = req.body;
+            const { customerEmail, customerPhone, customerName, serviceIds, startTime, createdByAdminId } = req.body;
             // Check if customer exists
             const customer = await checkCustomerByEmail(customerEmail);
             if (!customer) {
@@ -73,10 +83,9 @@ class BookingsController {
                 customersService.addCustomer({
                     email: customerEmail,
                     phone: customerPhone,
-                    name: customerName
+                    name: customerName,
                 });
             }
-            console.log("startTime: ", startTime);
             // check service is exists
             const services = [];
             for (const serviceId of serviceIds) {
@@ -88,11 +97,12 @@ class BookingsController {
             const totalPrice = getTotalPrice(services);
 
             // create new booking
-            const id = await bookingsService.addBooking({
+            const {id, code} = await bookingsService.addBooking({
                 customerEmail,
                 startTime,
                 totalPrice,
                 totalDuration,
+                createdByAdminId,
                 endTime: calculatorEndTime(startTime, totalDuration)
             });
 
@@ -109,8 +119,14 @@ class BookingsController {
             // send email to booking
             await sendEmailForCustomer(serviceIds);
 
-            res.json({ status: 201, message: "Đặt lịch thành công!", data: { id } });
-        } catch (error) { next(error); }
+            res.json({
+                status: 201, 
+                message: "Đặt lịch thành công!", 
+                datas: {id, code, totalDuration }
+            });
+        } catch (error) {
+            next(error);
+        }
     }
     /**
      * Route: PATCH /bookings/:bookingId

@@ -30,12 +30,14 @@ class AuthController {
         try {
             const { email, password } = req.body;
             const { accessToken } = await authService.signIn(email, password);
+            const admin = await authService.getAdminByEmail(email ?? "");
             res.setHeader('Authorization', 'Bearer' + ' ' + accessToken);
             res.status(201).json({
                 status: 201,
                 message: 'ok',
                 datas: {
                     accessToken,
+                    admin: mapAdminInfo(admin)
                 }
             })
         } catch (error) {
