@@ -54,3 +54,7 @@ GET http://{{host}}/bookings?limit=100
 
 ### Get one booking
 GET http://{{host}}/bookings/{{bookingId}}
+
+### export booking
+GET http://{{host}}/admin/bookings/export
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NTY4MTg0NTAsImV4cCI6MTc1NjgyMjA1MH0.qQBktyZyap7awVSvFuVTdKduoMCjK7aQ0IHwa47-79k"

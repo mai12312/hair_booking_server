@@ -1,3 +1,4 @@
+import { adminBookingsRouter } from "./admin-bookings.route";
 import { authRouter } from "./auth.route";
 import { bookingDetailsRouter } from "./booking_details.route";
 import { bookingReasonsRouter } from "./booking_reasons.route";
@@ -11,7 +12,7 @@ export function routes(app) {
     app.use('/api/services', servicesRouter);
     app.use('/api/service-categories', categoriesRouter);
     app.use('/api/bookings', bookingsRouter);
-    app.use('/api/admin/bookings', bookingsRouter);
+    app.use('/api/admin/bookings', adminBookingsRouter);
     app.use('/api/booking-details', bookingDetailsRouter);
     app.use('/api/booking-reasons', bookingReasonsRouter);
     app.use('/api/customers', customersRouter);

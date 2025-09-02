@@ -4,9 +4,9 @@ import { bookingDetailsService } from "../services/booking_details.service";
 import { bookingsService } from "../services/bookings.service";
 import { customersService } from "../services/customers.service";
 import { servicesService } from "../services/services.service";
-import { calculatorEndTime, findServiceById, getDateForBookings, getTotalDuration, getTotalPrice } from "../helpers/booking.helper";
-import { sendEmailForCustomer } from "../utils/booking.util";
-import { mapBookingsToCamelCase, mapBookingToCamelCase } from "../helpers/mapBooking.helper";
+import { calculatorEndTime, findServiceById, getTotalDuration, getTotalPrice } from "../helpers/booking.helper";
+import { exportBookingsToCSV, sendEmailForCustomer } from "../utils/booking.util";
+import { mapBookingForExportExcel, mapBookingsToCamelCase, mapBookingToCamelCase } from "../helpers/mapBooking.helper";
 
 class BookingsController {
     /**
@@ -16,12 +16,6 @@ class BookingsController {
     async getAllBookings(req, res, next) {
         try {
             const { month, year, startTime, endTime } = req.query;
-            console.log({
-                month,
-                year,
-                startTime,
-                endTime
-            })
             const bookings = await bookingsService.getAllBookings({ startTime, endTime, month, year });
             res.status(200).json({ status: 200, message: "ok", datas: { bookings: mapBookingsToCamelCase(bookings) } });
         } catch (error) { next(error); }
@@ -60,7 +54,7 @@ class BookingsController {
         } catch (error) { next(error); }
     }
     /**
-     * Route: DELETE /bookings/:bookingId
+     * Route: DELETE /admin/bookings/:bookingId
      * method: DELETE
      */
     async deleteBooking(req, res, next) {
@@ -117,7 +111,15 @@ class BookingsController {
             }
 
             // send email to booking
-            await sendEmailForCustomer(serviceIds);
+            await sendEmailForCustomer({
+                customerEmail: customer.email,
+                customerName: customer.name,
+                services,
+                totalPrice,
+                startTime,
+                bookingId: id,
+                code
+            });
 
             res.json({
                 status: 201, 
@@ -137,6 +139,70 @@ class BookingsController {
             await bookingsService.updateBooking(req.params.bookingId, req.body);
             res.json({ status: 200, message: "Updated!", data: { id: req.params.bookingId } });
         } catch (error) { next(error); }
+    }
+    /**
+     * Route: DELETE /bookings/:bookingId
+     * method: DELETE
+     */
+    async cancelBooking(req, res, next) {
+        try {
+            const { code } = req.query;
+            if (code) {
+                const booking = await bookingsService.getBookingByCode(code);
+                if (!booking) {
+                    return res.status(404).json({
+                        status: 404,
+                        message: "Không tìm thấy booking với mã code này!",
+                        data: null
+                    });
+                }
+                if (!booking.code) {
+                    return res.status(400).json({
+                        status: 400,
+                        message: "Booking không có mã code!",
+                        data: null
+                    });
+                }
+                if(booking.status == "canceled") {
+                    return res.status(417).json({
+                        status: 417,
+                        message: "Booking đã được hủy trước đó!",
+                        data: null
+                    });
+                }
+            }
+            await bookingsService.cancelBooking(req.params.bookingId);
+            res.json({
+                status: 201,
+                message: "Đã hủy lịch cắt thành công!",
+                data: null
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    /**
+     * Route: GET /admin/bookings/export
+     * method: GET
+     */
+    async exportBookings(req, res, next) {
+        try {
+            // Get all bookings (you can add filters if needed)
+            const { month, year, startTime, endTime } = req.query;
+
+            const bookings = await bookingsService.getAllBookings({month, year, startTime, endTime});
+            // Map bookings to flat objects for CSV
+            const flatBookings = await Promise.all(bookings.map(async (b) => {
+                const user = await customersService.getCustomerByEmail(b.customerEmail ?? b.customer_email);
+
+                return mapBookingForExportExcel(b, user);
+            }));
+
+            await exportBookingsToCSV(flatBookings, "booking_export.csv", res);
+        } catch (error) {
+            next(error);
+        }
     }
 }
 export const bookingsController = new BookingsController();

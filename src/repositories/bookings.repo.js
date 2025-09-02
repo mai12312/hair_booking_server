@@ -3,18 +3,46 @@ import { generateCodeBooking } from "../helpers/generateCodeBooking.helper";
 import { queryArgument } from "../models";
 
 export const getAllBookings = async ({
-    limit = 10,
+    startTime,
+    endTime,
+    month,
+    year,
+    limit = 1000,
     offset = 0,
     sortBy = 'created_at',
-    order = 'asc'
-}) => {
-    const { sortDirection, sortColumn } = handleOrderByBookings({ sortBy, order });
-    const sql = `select * from bookings order by ${sortColumn} ${sortDirection} limit ? offset ?`;
-    return await queryArgument(sql, limit, offset);
+    order = 'desc'
+} = {}) => {
+    // Build SQL with optional filters
+    let sql = "select * from bookings";
+    const params = [];
+    const where = [];
+    if (startTime) {
+        where.push("start_time >= ?");
+        params.push(startTime);
+    }
+    if (endTime) {
+        where.push("end_time <= ?");
+        params.push(endTime);
+    }
+    if (month && year) {
+        where.push("MONTH(start_time) = ? AND YEAR(start_time) = ?");
+        params.push(month, year);
+    }
+    if (where.length > 0) {
+        sql += " where " + where.join(" and ");
+    }
+    sql += ` order by ${sortBy} ${order} limit ? offset ?`;
+    params.push(limit, offset);
+    return await queryArgument(sql, ...params);
 }
 export const getBookingById = async (bookingId) => {
     const sql = "select * from bookings where id = ?";
     const result = await queryArgument(sql, bookingId);
+    return result[0];
+}
+export const getBookingByCode = async (code) => {
+    const sql = "select * from bookings where code = ?";
+    const result = await queryArgument(sql, code);
     return result[0];
 }
 export const addBooking = async ({
@@ -83,4 +111,10 @@ export const getBookingsByTimeRange = async ({
 }) => {
     const sql = `select * from bookings where start_time >= ? and end_time <= ?`;
     return await queryArgument(sql, formatDateTime(startTime), formatDateTime(endTime));
+}
+
+export const cancelBooking = async (bookingId) => {
+    const sql = "update bookings set status = 'canceled' where id = ?";
+    const result = await queryArgument(sql, bookingId);
+    return result.affectedRows > 0;
 }

@@ -2,6 +2,7 @@ import {
     addCustomer,
     deleteCustomer,
     getAllCustomers,
+    getCustomerByEmail,
     getCustomerById,
     updateCustomer
 } from "../repositories/customers.repo";
@@ -12,6 +13,11 @@ class CustomersService {
     }
     async getCustomerById(customerId) {
         const customer = await getCustomerById(customerId);
+        if (!customer) throw new Error("Customer not found!");
+        return customer;
+    }
+    async getCustomerByEmail(email) {
+        const customer = await getCustomerByEmail(email);
         if (!customer) throw new Error("Customer not found!");
         return customer;
     }

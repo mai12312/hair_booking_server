@@ -1,3 +1,5 @@
+import moment from "moment";
+
 // Calculator duration
 export function getTotalDuration(services) {
     if (!Array.isArray(services)) return 0;
@@ -59,4 +61,8 @@ export function formatDateTime(dt) {
         return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
     }
     return dt;
+}
+
+export function formatDate(dt, format = 'MMMM Do YYYY, h:mm:ss a') {
+    return moment(dt).format(format);
 }

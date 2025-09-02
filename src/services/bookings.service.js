@@ -1,7 +1,10 @@
+import { getDateForBookings } from "../helpers/booking.helper";
 import {
     addBooking,
+    cancelBooking,
     deleteBooking,
     getAllBookings,
+    getBookingByCode,
     getBookingById,
     getBookingsByTimeRange,
     getBookingsByUserEmail,
@@ -58,6 +61,16 @@ class BookingsService {
         const bookings = await getBookingsByTimeRange({ startTime, endTime });
         if (!bookings) throw new Error("Booking không tìm thấy");
         return bookings;
+    }
+    async cancelBooking(bookingId) {
+        const booking = await getBookingById(bookingId);
+        if (!booking) throw new Error("Booking không tìm thấy");
+        return await cancelBooking(bookingId);
+    }
+    async getBookingByCode(code) {
+        const booking = await getBookingByCode(code);
+        if (!booking) throw new Error("Booking không tìm thấy");
+        return booking;
     }
 }
 export const bookingsService = new BookingsService();
