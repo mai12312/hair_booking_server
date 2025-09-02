@@ -1,7 +1,6 @@
 import { adminBookingsRouter } from "./admin-bookings.route";
 import { authRouter } from "./auth.route";
 import { bookingDetailsRouter } from "./booking_details.route";
-import { bookingReasonsRouter } from "./booking_reasons.route";
 import { bookingsRouter } from "./bookings.route";
 import { categoriesRouter } from "./categories.route";
 import { customersRouter } from "./customers.route";
@@ -14,7 +13,6 @@ export function routes(app) {
     app.use('/api/bookings', bookingsRouter);
     app.use('/api/admin/bookings', adminBookingsRouter);
     app.use('/api/booking-details', bookingDetailsRouter);
-    app.use('/api/booking-reasons', bookingReasonsRouter);
     app.use('/api/customers', customersRouter);
     app.use('/api/media', mediaRouter);
     app.use('/api/auth', authRouter);

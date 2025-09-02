@@ -16,10 +16,10 @@ class ServicesService {
         sortBy
     }) {
         return await getAllServices({
-            limit,
-            offset,
-            order,
-            sortBy
+            limit: limit || 10,
+            offset: offset || 0,
+            order: order || 'asc',
+            sortBy: sortBy || 'created_at'
         });
     }
 
@@ -30,7 +30,11 @@ class ServicesService {
     }
 
     async addService(data) {
-        return await addService(data);
+        const status = 'pending';
+        return await addService({
+            ...data,
+            status
+        });
     }
 
     async updateService(serviceId, updateData) {
@@ -48,8 +52,16 @@ class ServicesService {
         if (!service) throw new Error("Dịch vụ không tồn tại!");
         return await deleteService(serviceId);
     }
-    async getServicesByCategoryId(categoryId) {
-        return await getServicesByCategoryId(categoryId);
+    async getServicesByCategoryId({categoryId, limit, offset, order, sortBy}) {
+        const services = await getServicesByCategoryId({
+            categoryId, 
+            limit: limit || 10, 
+            offset: offset || 0, 
+            order: order || 'asc', 
+            sortBy: sortBy || 'created_at'
+        });
+        if (!services) throw new Error("Không tìm thấy dịch vụ nào!");
+        return services;
     }
     async countServicesByCategoryId(categoryId) {
         return await countServicesByCategoryId(categoryId);
@@ -59,17 +71,17 @@ class ServicesService {
      * @returns 
      */
     async getBookingDetailsByServiceId({serviceId,
-            limit,
-            offset,
-            order,
-            sortBy
+        limit,
+        offset,
+        order,
+        sortBy
     }) {
         return await getBookingDetailsByServiceId({
             serviceId,
-            limit,
-            offset,
-            order,
-            sortBy
+            limit: limit || 10,
+            offset: offset || 0,
+            order: order || 'asc',
+            sortBy: sortBy || 'created_at'
         });
     }
 }

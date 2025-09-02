@@ -1,10 +1,10 @@
 import { queryArgument } from "../models";
 
 export const getAllCustomers = async ({
-    limit = 10,
-    offset = 0,
-    sortBy = 'created_at',
-    order = 'asc'
+    limit,
+    offset,
+    sortBy,
+    order
 }) => {
     const sql = "select * from customers order by ? ? limit ? offset ?";
     return await queryArgument(sql, sortBy, order, limit, offset);

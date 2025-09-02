@@ -9,7 +9,17 @@ import {
 
 class CustomersService {
     async getAllCustomers(query) {
-        return await getAllCustomers(query);
+        const sortBy = query.sortBy || 'created_at';
+        const order = query.order || 'asc';
+        const offset = query.offset || 0;
+        const limit = query.limit || 10;
+
+        return await getAllCustomers({
+            sortBy,
+            order,
+            offset,
+            limit
+        });
     }
     async getCustomerById(customerId) {
         const customer = await getCustomerById(customerId);

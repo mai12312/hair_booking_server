@@ -7,15 +7,15 @@ export function mapServiceToCamelCase(service) {
     return {
         id: service.id,
         name: service.name,
-        categoryId: service.category_id ?? service.categoryId,
-        categoryName: service.category_name ?? service.categoryName,
+        categoryId: service.category_id || service.categoryId,
+        categoryName: service.category_name || service.categoryName,
         price: service.price,
         status: service.status,
         image: service.image,
         duration: service.duration,
-        createdAt: service.created_at ?? service.createdAt,
-        updatedAt: service.updated_at ?? service.updatedAt,
-        description: service.description ?? service.description,
+        createdAt: service.created_at || service.createdAt,
+        updatedAt: service.updated_at || service.updatedAt,
+        description: service.description || service.description,
         // ...add more fields as needed
     };
 }

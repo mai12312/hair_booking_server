@@ -1,10 +1,10 @@
 import { queryArgument } from "../models";
 
 export const getAllBookingDetails = async ({
-    limit = 10,
-    offset = 0,
-    sortBy = 'created_at',
-    order = 'asc'
+    limit,
+    offset,
+    sortBy,
+    order
 }) => {
     const sql = "select * from booking_details order by ? ? limit ? offset ?";
     return await queryArgument(sql, sortBy, order, limit, offset);
@@ -31,10 +31,10 @@ export const deleteBookingDetail = async (detailId) => {
 }
 export const getBookingDetailsByServiceId = async ({
     serviceId,
-    limit = 10,
-    offset = 0,
-    sortBy = 'created_at',
-    order = 'asc'
+    limit,
+    offset,
+    sortBy,
+    order
 }) => {
     const sql = "select * from booking_details where service_id = ? order by ? ? limit ? offset ?";
     return await queryArgument(sql, serviceId, sortBy, order, limit, offset);

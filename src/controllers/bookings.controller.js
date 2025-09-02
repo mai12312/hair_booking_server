@@ -38,7 +38,7 @@ class BookingsController {
                 offset: Number(isNaN(offset) ? "0" : offset),
                 order: order === "desc" ? "desc" : "asc",
                 sortBy,
-                email: email ?? ""
+                email: email || ""
             });
             res.status(200).json({ status: 200, message: "ok", datas: { bookings: mapBookingsToCamelCase(bookings) } });
         } catch (error) { next(error); }
@@ -105,8 +105,8 @@ class BookingsController {
                 await bookingDetailsService.addBookingDetail({
                     service_id: serviceId,
                     booking_id: id,
-                    price: findServiceById(services, serviceId)?.price ?? 0,
-                    duration: findServiceById(services, serviceId)?.duration ?? 0
+                    price: findServiceById(services, serviceId).price || 0,
+                    duration: findServiceById(services, serviceId).duration || 0
                 });
             }
 
@@ -194,7 +194,7 @@ class BookingsController {
             const bookings = await bookingsService.getAllBookings({month, year, startTime, endTime});
             // Map bookings to flat objects for CSV
             const flatBookings = await Promise.all(bookings.map(async (b) => {
-                const user = await customersService.getCustomerByEmail(b.customerEmail ?? b.customer_email);
+                const user = await customersService.getCustomerByEmail(b.customerEmail || b.customer_email);
 
                 return mapBookingForExportExcel(b, user);
             }));

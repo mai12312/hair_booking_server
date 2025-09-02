@@ -1,10 +1,10 @@
 import { queryArgument } from "../models";
 
 export const getAllCategories = async ({
-    limit = 10,
-    offset = 0,
-    sortBy = 'created_at',
-    order = 'asc'
+    limit,
+    offset,
+    sortBy,
+    order
 }) => {
     const sql = "select * from categories order by ? ? limit ? offset ?";
     const result = await queryArgument(sql, sortBy, order, limit, offset);
@@ -18,8 +18,8 @@ export const getCategoryById = async (categoryId) => {
 export const addCategory = async ({
     name,
     adminId,
-    displayOrder = 9999,
-    status = '0'
+    displayOrder,
+    status
 }) => {
     const sql = "insert into categories (name, admin_id, display_order, status) values (?, ?, ?, ?)";
     const result = await queryArgument(sql, name, adminId, displayOrder, status);

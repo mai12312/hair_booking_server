@@ -29,7 +29,7 @@ export const checkAuthAdmin = async (email, password) => {
 export const getRefreshToken = async (email) => {
     const sql = "select refresh_token from admins where email = ?";
     const result = await queryArgument(sql, email);
-    return result[0]?.refresh_token;
+    return result[0].refresh_token;
 }
 export const removeRefreshToken = async (email) => {
     const sql = "update admins set refresh_token = null where email = ?";

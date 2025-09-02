@@ -86,7 +86,7 @@ class CategoriesController {
             const {name, displayOrder} = req.body;
             const authHeader = req.headers['authorization'];
             const payload = verifyAccessToken(authHeader);
-            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            const admin = await authService.getAdminByEmail(payload.email || "");
             const adminId = admin.id;
             const id = await categoryService.addCategory({
                 name,

@@ -87,7 +87,7 @@ class ServicesController {
             const serviceData = req.body;
             const authHeader = req.headers['authorization'];
             const payload = verifyAccessToken(authHeader);
-            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            const admin = await authService.getAdminByEmail(payload.email || "");
             const adminId = admin.id;
             const id = await servicesService.addService({
                 ...serviceData,

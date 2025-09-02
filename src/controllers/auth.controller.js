@@ -12,7 +12,7 @@ class AuthController {
         try {
             const authHeader = req.headers['authorization'];
             const payload = verifyAccessToken(authHeader);
-            const admin = await authService.getAdminByEmail(payload.email ?? "");
+            const admin = await authService.getAdminByEmail(payload.email || "");
             res.json({
                 status: 200,
                 message: 'ok',
@@ -30,7 +30,7 @@ class AuthController {
         try {
             const { email, password } = req.body;
             const { accessToken } = await authService.signIn(email, password);
-            const admin = await authService.getAdminByEmail(email ?? "");
+            const admin = await authService.getAdminByEmail(email || "");
             res.setHeader('Authorization', 'Bearer' + ' ' + accessToken);
             res.status(201).json({
                 status: 201,

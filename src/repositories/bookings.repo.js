@@ -47,12 +47,12 @@ export const getBookingByCode = async (code) => {
 }
 export const addBooking = async ({
     customerEmail,
-    status = "pending",
+    status,
     startTime,
     endTime,
-    totalPrice = 0,
-    totalDuration = 0,
-    createdByAdminId = null
+    totalPrice,
+    totalDuration,
+    createdByAdminId
 }) => {
     const code = await generateCodeBooking();
     const sql = "insert into bookings (customer_email, status, start_time, end_time, total_price, total_duration, created_by_admin_id, code) values (?, ?, ?, ?, ?, ?, ?, ?)";

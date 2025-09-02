@@ -9,10 +9,10 @@ class CategoryService {
         sortBy
     }) {
         return await getAllCategories({
-            limit,
-            offset,
-            order,
-            sortBy
+            limit:  limit || 10,
+            offset: offset || 0,
+            order: order || 'asc',
+            sortBy: sortBy || 'created_at'
         });
     }
 
@@ -23,10 +23,13 @@ class CategoryService {
     }
 
     async addCategory({name, adminId, displayOrder}) {
+        const status = '0';
+        const order = displayOrder || 9999;
         return await addCategory({
             name,
             adminId,
-            displayOrder
+            displayOrder: order,
+            status
         });
     }
     

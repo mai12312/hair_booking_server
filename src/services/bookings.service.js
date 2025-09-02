@@ -35,7 +35,11 @@ class BookingsService {
         return booking;
     }
     async addBooking(data) {
-        return await addBooking(data);
+        const status = data.status || "pending";
+        const totalPrice = data.totalPrice || 0;
+        const totalDuration = data.totalDuration || 0;
+        const createdByAdminId = data.createdByAdminId || null;
+        return await addBooking({ ...data, status, totalPrice, totalDuration, createdByAdminId });
     }
     async updateBooking(bookingId, data) {
         const booking = await getBookingById(bookingId);

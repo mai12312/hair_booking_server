@@ -8,7 +8,11 @@ import {
 
 class BookingDetailsService {
     async getAllBookingDetails(query) {
-        return await getAllBookingDetails(query);
+        const limit = query.limit || 10;
+        const offset = query.offset || 0;
+        const sortBy = query.sortBy || 'created_at';
+        const order = query.order || 'asc';
+        return await getAllBookingDetails({ ...query, sortBy, order, limit, offset });
     }
     async getBookingDetailById(detailId) {
         const detail = await getBookingDetailById(detailId);
