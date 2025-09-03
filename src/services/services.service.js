@@ -1,3 +1,4 @@
+import { getBookingDetailsByServiceId } from "../repositories/booking_details.repo";
 import {
     addService,
     countServicesByCategoryId,

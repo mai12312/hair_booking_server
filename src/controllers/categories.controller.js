@@ -146,7 +146,7 @@ class CategoriesController {
                 limit: Number(isNaN(limit) ? "10" : limit),
                 offset: Number(isNaN(offset) ? "0" : offset),
                 order: order === "desc" ? "desc" : "asc",
-                sortBy
+                sortBy: sortBy || "created_at"
             });
             return res.status(200).json({
                 status: 200,
